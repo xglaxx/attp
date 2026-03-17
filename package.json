@@ -1,0 +1,33 @@
+{
+  "name": "attp",
+  "version": "1.2.0",
+  "description": "",
+  "keywords": [
+    "attp-webp",
+    "attp-text",
+    "attp-excited"
+  ],
+  "homepage": "https://github.com/xglaxx/attp#readme",
+  "bugs": {
+    "url": "https://github.com/xglaxx/attp/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xglaxx/attp.git"
+  },
+  "license": "ISC",
+  "author": "Crap",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "attp": "test.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "grapheme-splitter": "^1.0.4",
+    "pureimage": "^0.4.18"
+  },
+  "devDependencies": {}
+}
