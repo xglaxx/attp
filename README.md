@@ -16,8 +16,9 @@
 # ⚙️ Opções de Configuração (API)
 | Propriedade | Tipo | Padrão | Descrição |
 | :--- | :---: | :---: | :--- |
+| `dir` | `String` | `"./` | Diretório geral. |
 | `fontDir` | `String` | `""` | Diretório para as fontes. |
-| `emojisDir` | `String` | `"./"` | Diretório de (cada) pacotes de emojis. |
+| `emojisDir` | `String` | `""` | Diretório de (cada) pacotes de emojis. |
 | `colors` | `Array` | `['red', ...]` | Cores que o texto assumirá em cada frame. |
 | `edgeColors` | `Array` | `[]` | Cores da borda (contorno) do texto. |
 | `fps` | `Number` | `10` | Velocidade da animação. |
