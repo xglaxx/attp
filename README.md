@@ -52,7 +52,7 @@
          output: "attp-"+Date.now(),
          text: "🥀Attp",
       });
-      tt.selectEmoji("Google");
+      tt.selectEmojis("Google");
       tt.selectFont("CourierPrime-Regular");
       (async () => {
          await tt.start(); // => Resultado: Arquivo
