@@ -16,8 +16,8 @@
 # ⚙️ Opções de Configuração (API)
 | Propriedade | Tipo | Padrão | Descrição |
 | :--- | :---: | :---: | :--- |
-| `fontDir` | `String` | `""` | Caminho do arquivo .ttf ou .otf. |
-| `emojisDir` | `String` | `"./"` | Pasta contendo os emojis PNG. |
+| `fontDir` | `String` | `""` | Diretório para as fontes. |
+| `emojisDir` | `String` | `"./"` | Diretório de (cada) pacotes de emojis. |
 | `colors` | `Array` | `['red', ...]` | Cores que o texto assumirá em cada frame. |
 | `edgeColors` | `Array` | `[]` | Cores da borda (contorno) do texto. |
 | `fps` | `Number` | `10` | Velocidade da animação. |
