@@ -3,26 +3,26 @@
 # 📖 Sobre o Projeto
    Este é um motor de renderização de Stickers ATTP (Animated Text To Picture) desenvolvido em Node.js. Ele não apenas anima o texto com cores vibrantes, mas integra de forma nativa imagens de emojis, garantindo que suas figurinhas fiquem ricas em detalhes e perfeitamente centralizadas.
 # ✨ Diferenciais
-   • **🌈 Ciclo de Cores Dinâmico**: Suporte a múltiplos frames com cores alternadas.
-   • **🎭 Suporte a Emojis**: Renderiza emojis PNG diretamente no sticker junto com o texto.
-   • **🧠 Fallback de Emoji**: Se um emoji composto (pele/gênero) não existir, ele busca a versão base automaticamente.
-   • **📐 Texto Dinâmico**: Quebra de linha inteligente e ajuste automático do tamanho da fonte para caber no 512x512.
-   • **⚖️ Altamente Customizável**: Controle de FPS, cores de borda, margens e caminhos de arquivos via Classe de Configuração.
+   • **🌈 Ciclo de Cores Dinâmico**: Suporte a múltiplos frames com cores alternadas.<br>
+   • **🎭 Suporte a Emojis**: Renderiza emojis PNG diretamente no sticker junto com o texto.<br>
+   • **🧠 Fallback de Emoji**: Se um emoji composto (pele/gênero) não existir, ele busca a versão base automaticamente.<br>
+   • **📐 Texto Dinâmico**: Quebra de linha inteligente e ajuste automático do tamanho da fonte para caber no 512x512.<br>
+   • **⚖️ Altamente Customizável**: Controle de FPS, cores de borda, margens e caminhos de arquivos via Classe de Configuração.<br>
    • **🧹 Auto-Cleanup**: Gerenciamento automático de arquivos temporários.
 # 🛠️ Pré-requisitos
-   • Antes de começar, certifique-se de ter o **FFmpeg(^22v)** instalado no seu sistema (No Termux: `pkg install ffmpeg`).
-   • Uma pasta com os [emojis do Google](https://github.com/googlefonts/noto-emoji/tree/main/png/) ou pode ser outro Emoji de preferência sua, mas, em formato PNG (72x72 recomendado).
+   • Antes de começar, certifique-se de ter o **FFmpeg(^22v)** instalado no seu sistema (No Termux: `pkg install ffmpeg`).<br>
+   • Uma pasta com os [emojis do Google](https://github.com/googlefonts/noto-emoji/tree/main/png/) ou pode ser outro Emoji de preferência sua, mas, em formato PNG (72x72 recomendado).<br>
    • Necessário ter um arquivo [TTF/OTF](https://www.nerdfonts.com/font-downloads) para que seja aplicado no texto da imagem.
 # ⚙️ Opções de Configuração (API)
-| Propriedade | Tipo | Padrão | Descrição |<br>
-| :--- | :---: | :---: | :--- |<br>
-| `fontPath` | `String` | `""` | Caminho do arquivo .ttf ou .otf. |<br>
-| `emojisPath` | `String` | `"./"` | Pasta contendo os emojis PNG. |<br>
-| `colors` | `Array` | `['red', ...]` | Cores que o texto assumirá em cada frame. |<br>
-| `edgeColors` | `Array` | `[]` | Cores da borda (contorno) do texto. |<br>
-| `fps` | `Number` | `10` | Velocidade da animação. |<br>
-| `limitText` | `Number` | `150` | Limite máximo de caracteres. |<br>
-| `margin` | `Number` | `5` | Recuo lateral para evitar que o texto encoste na borda. |<br>
+| Propriedade | Tipo | Padrão | Descrição |
+| :--- | :---: | :---: | :--- |
+| `fontDir` | `String` | `""` | Caminho do arquivo .ttf ou .otf. |
+| `emojisDir` | `String` | `"./"` | Pasta contendo os emojis PNG. |
+| `colors` | `Array` | `['red', ...]` | Cores que o texto assumirá em cada frame. |
+| `edgeColors` | `Array` | `[]` | Cores da borda (contorno) do texto. |
+| `fps` | `Number` | `10` | Velocidade da animação. |
+| `limitText` | `Number` | `150` | Limite máximo de caracteres. |
+| `margin` | `Number` | `5` | Recuo lateral para evitar que o texto encoste na borda. |
 # 🚀 Como usar
    1. Instalação
    ```bash
@@ -84,11 +84,10 @@
    Para o suporte a emojis funcionar, seus arquivos devem seguir o padrão: emoji_u[unicode].png.
    Exemplo: emoji_u1f337.png (Tulipa).
 # ⚠️ Observações dos Objects
-   1. *fontDir"*: Não precisa direcionar totalmente a pasta das fontes, pois o *dir* já está fazendo esse trabalho.
-   2. *emojis"*: Não precisa direcionar totalmente a pasta dos emojis, pois o *dir* já está fazendo esse trabalho.
+   1. *fontDir*: Não precisa direcionar totalmente a pasta das fontes, pois o *dir* já está fazendo esse trabalho.
+   2. *emojis*: Não precisa direcionar totalmente a pasta dos emojis, pois o *dir* já está fazendo esse trabalho.
    3. *output*: Apenas o Nome do arquivo é necessário (Recomendo não ter espaço ou caracteres que atrapalhe o Arquivo).
    4. *dir*: Ele tem um papel crucial de: Salvar o arquivo, criar pasta temporária, local das fontes e emojis.
-## 🖼️ Resultado Final
 <div align="center">
    <h2>✨ Demonstração</h2>
    <img src="./tmp/test/attp.webp" width="250" alt="Sticker Animado">
