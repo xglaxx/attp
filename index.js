@@ -87,7 +87,6 @@ export default class Attp extends ConfigAttp {
          }
       }
       const pastFont = { all: [] };
-      const ListFontsPast = readPast(diretoryFonts); 
       const openPastByFont = (dir, arr) => {
          var index = 0;
          for (const p of readPast(dir)) {
@@ -112,14 +111,15 @@ export default class Attp extends ConfigAttp {
                      });
                      index++;
                   } else {
+                     const pass = pastFont[p+"-"+f] = [];
                      try {
                         const stats = fs.statSync(openListFonts+f+"/");
                         if (stats.isDirectory()) {
-                           const pass = pastFont[p+"-"+f] = [];
                            openPastByFont(openListFonts+f+"/", pass);
                         }
                      } catch (err) {
-                        
+                        console.log("openPastByFont.error:", err)
+                        delete pastFont[p+"-"+f];
                      }
                   }
                }
