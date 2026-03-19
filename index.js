@@ -211,7 +211,7 @@ export default class Attp extends ConfigAttp {
                      if (imgEmoji.width === 72 && imgEmoji.height === 72) ctx.drawImage(imgEmoji, currentX, startYEmoji, sizeText, sizeText);
                   }
                   
-                  currentX += sizeText - 8.0;
+                  currentX += sizeText - 5.0;
                } else {
                   let charWidth = ctx.measureText(char).width;
                   if (char === " ") {
