@@ -43,7 +43,6 @@
       const dir = path.dirname(_fileName)+"/";
       */
       const Attp = require("attp").default;
-      const path = require("path");
       const dir = __dirname;
       const tt = new Attp({
          dir,
@@ -75,14 +74,12 @@
       const emojisList = tt.listEmojis();
       console.log(emojisList); // => {}
       // Selecionar Emoji.
-      tt.selectEmoji("Google");
+      tt.selectEmoji("Google"); // Porém... Isso só vai funcionar se tiver com o diretório de cada pacote de emojis (ex.: Google, WhatsApp e etc...).
       // Carregar o pacote de emojis diretamente
       tt.changeEmojis("./Google/"); // Esteja ciente que as imagens(emojis) estejam dentro da pasta.
-      //------//
-      // Porém... Isso só vai funcionar se tiver com o diretório de cada pacote de emojis (ex.: Google, WhatsApp e etc...).
    ```
 # 📂 Estrutura de Pastas Esperada
-   Para o suporte a emojis funcionar, seus arquivos devem seguir o padrão: emoji_u[unicode].png.
+   Para o suporte a emojis funcionar, seus arquivos devem seguir o padrão: emoji_u[unicode].png.<br>
    Exemplo: emoji_u1f337.png (Tulipa).
 # ⚠️ Observações dos Objects
    1. *fontDir*: Não precisa direcionar totalmente a pasta das fontes, pois o *dir* já está fazendo esse trabalho.

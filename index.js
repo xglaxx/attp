@@ -79,12 +79,19 @@ export default class Attp extends ConfigAttp {
       let diretoryFonts = path.join(_dirname, "source/fonts/");
       if (this.fontDir) diretoryFonts = path.join(this.dir, this.fontDir);
       
+      const readPast = (dir) => {
+         try {
+            return fs.readdirSync(openListFonts);
+         } catch (err) {
+            return [];
+         }
+      }
       const pastFont = { all: [] };
-      const ListFontsPast = fs.readdirSync(diretoryFonts); 
+      const ListFontsPast = readPast(diretoryFonts); 
       const openPastByFont = (dir, arr) => {
          var index = 0;
-         for (const p of fs.readdirSync(dir)) {
-            if (p.endsWith(".ttf")) {
+         for (const p of readPast(dir)) {
+            if (p.endsWith(".ttf") || p.endsWith(".otf")) {
                arr.push({
                   index,
                   local: dir,
@@ -93,12 +100,10 @@ export default class Attp extends ConfigAttp {
                });
                index++;
             } else {
-               if (!(p in pastFont)) pastFont[p] = [];
-               
                index = 0;
                const openListFonts = path.join(dir, p+"/");
-               for (const f of fs.readdirSync(openListFonts)) {
-                  if (f.endsWith(".ttf")) {
+               for (const f of readPast(openListFonts)) {
+                  if (f.endsWith(".ttf") || f.endsWith(".otf")) {
                      pastFont[p].push({
                         index,
                         local: openListFonts,
@@ -107,8 +112,11 @@ export default class Attp extends ConfigAttp {
                      });
                      index++;
                   } else {
-                     const pass = pastFont[p+"-"+f] = [];
-                     openPastByFont(openListFonts+f+"/", pass);
+                     const stats = fs.statSync(openListFonts+f+"/");
+                     if (stats.isDirectory()) {
+                        const pass = pastFont[p+"-"+f] = [];
+                        openPastByFont(openListFonts+f+"/", pass);
+                     }
                   }
                }
             }
