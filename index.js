@@ -112,10 +112,14 @@ export default class Attp extends ConfigAttp {
                      });
                      index++;
                   } else {
-                     const stats = fs.statSync(openListFonts+f+"/");
-                     if (stats.isDirectory()) {
-                        const pass = pastFont[p+"-"+f] = [];
-                        openPastByFont(openListFonts+f+"/", pass);
+                     try {
+                        const stats = fs.statSync(openListFonts+f+"/");
+                        if (stats.isDirectory()) {
+                           const pass = pastFont[p+"-"+f] = [];
+                           openPastByFont(openListFonts+f+"/", pass);
+                        }
+                     } catch (err) {
+                        
                      }
                   }
                }
