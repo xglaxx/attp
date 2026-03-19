@@ -81,7 +81,7 @@ export default class Attp extends ConfigAttp {
       
       const readPast = (dir) => {
          try {
-            return fs.readdirSync(openListFonts);
+            return fs.readdirSync(dir);
          } catch (err) {
             return [];
          }
