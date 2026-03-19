@@ -119,7 +119,6 @@ export default class Attp extends ConfigAttp {
                            openPastByFont(openListFonts+f+"/", pass);
                         }
                      } catch (err) {
-                        console.log("openPastByFont.error:", { pastFont, error: err })
                         delete pastFont[p+"-"+f];
                      }
                   }
