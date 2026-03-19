@@ -103,6 +103,7 @@ export default class Attp extends ConfigAttp {
                const openListFonts = path.join(dir, p+"/");
                for (const f of readPast(openListFonts)) {
                   if (f.endsWith(".ttf") || f.endsWith(".otf")) {
+                     if (!(p in pastFont)) pastFont[p] = [];
                      pastFont[p].push({
                         index,
                         local: openListFonts,
@@ -118,7 +119,7 @@ export default class Attp extends ConfigAttp {
                            openPastByFont(openListFonts+f+"/", pass);
                         }
                      } catch (err) {
-                        console.log("openPastByFont.error:", err)
+                        console.log("openPastByFont.error:", { pastFont, error: err })
                         delete pastFont[p+"-"+f];
                      }
                   }
