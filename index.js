@@ -166,7 +166,7 @@ export default class Attp extends ConfigAttp {
    }
    
    async background() {
-      const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-"));
+      const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-background-"));
       try {
          if (!fs.existsSync(this.pathImage)) {
             if (this.colorBackground) {
@@ -209,7 +209,7 @@ export default class Attp extends ConfigAttp {
                return bufferFrames;
             },
             image: () => {
-               const buffer = fs.readFileSync(framesEdit[0].path);
+               const buffer = fs.readFileSync(frames[0].path);
                fs.rmSync(pastAttp, { recursive: true, force: true });
                return buffer;
             },
@@ -242,10 +242,10 @@ export default class Attp extends ConfigAttp {
          width: this.width, height: this.height
       });
       let lines = [];
-      const frames = [];
       const maxWidth = this.width - (this.margin * 2);
       const maxHeight = this.height - (this.margin * 2);
-      const tempDir = fs.mkdtempSync(path.join(this.dir, "attp-"));
+      const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-"));
+      const tempFrames = fs.mkdtempSync(path.join(pastAttp, "frames-"));
       const tempImg = PImage.make(this.width, this.height);
       const tempCtx = tempImg.getContext('2d');
       tempCtx.clearRect(0, 0, this.width, this.height); 
@@ -309,27 +309,28 @@ export default class Attp extends ConfigAttp {
                }
             }
          }
-         const p = path.join(tempDir, `f_${i}.png`);
-         frames.push(p);
+         const p = path.join(tempFrames, `f_${i}.png`);
          await PImage.encodePNGToStream(img, fs.createWriteStream(p));
       }
-      
+      const frames = fs.readdirSync(tempFrames).sort((a, b) => {
+         return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
+      });
       return {
          images: () => {
             const bufferFrames = frames.map((f, i) => ({
                index: i,
-               buffer: fs.readFileSync(f)
+               buffer: fs.readFileSync(path.join(tempFrames, f))
             }));
-            fs.rmSync(tempDir, { recursive: true, force: true });
+            fs.rmSync(pastAttp, { recursive: true, force: true });
             return bufferFrames;
          },
          image: () => {
-            const buffer = fs.readFileSync(frames[0]);
-            fs.rmSync(tempDir, { recursive: true, force: true });
+            const buffer = fs.readFileSync(path.join(tempFrames, frames[0]));
+            fs.rmSync(pastAttp, { recursive: true, force: true });
             return buffer;
          },
-         webp: convertWebp(tempDir, this).finally(() => {
-            fs.rmSync(tempDir, { recursive: true, force: true });
+         webp: convertWebp(tempFrames, pastAttp, this.fps).finally(() => {
+            fs.rmSync(pastAttp, { recursive: true, force: true });
          })
       };
    }

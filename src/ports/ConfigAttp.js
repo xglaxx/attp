@@ -18,7 +18,6 @@ export default class ConfigAttp {
       this._fontSize = 80; // Tamanho do texto;
       this._edgeColors = []; // rgb;
       this._limitText = 150; // Limite de texto;
-      this._output = "attp-"+Date.now()+".webp"; // Nome do arquivo;
       this._colors = ['red', 'lime', 'yellow', 'magenta', 'cyan']; // Cor do texto;
       this._sets(options);
    }
@@ -100,28 +99,6 @@ export default class ConfigAttp {
       }
       
       this._dir = diretory;
-   }
-   
-   get output() {
-      return this._output;
-   }
-   set output(nameFile) {
-      if (nameFile) {
-         let output;
-         if (/([a-zA-Z0-9_&$+.])\//.test(nameFile)) {
-            output = path.join(this.dir, path.dirname(nameFile), path.basename(nameFile));
-         } else {
-            output = path.join(this.dir, path.basename(nameFile));
-         }
-         if (fs.existsSync(output)) {
-            console.warn(`⚠️ AVISO: O arquivo "${output}" já existe!`);
-         }
-         if (!output.endsWith(".webp")) output += ".webp";
-         
-         this._output = output;
-      } else {
-         this._output = path.join(this.dir, path.basename(this._output));
-      }
    }
    
    get edgeColors() {

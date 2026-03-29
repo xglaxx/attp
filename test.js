@@ -10,12 +10,14 @@ const text = (pross[2] || "🥀Attp");
       text: text,
       dir: _dirname,
       fontDir: "source/fonts/",
-      emojisDir: "source/emojis/",
-      output: "tmp/attp-"+Date.now()
+      emojisDir: "source/emojis/"
    });
    tt.selectEmojis("Google");
    tt.selectFont("CourierPrime-Regular");
-   const output = await tt.start(); // => Resultado: Arquivo
+   const att = await tt.start(); // => {images, image, webp}
+   const webp = await att.webp;
+   const output = path.join(_dirname, "tmp/attp-"+Date.now()+".webp");
+   fs.writeFileSync(output, webp);
    console.log("Attp:", output);
    process.exit();
 })();

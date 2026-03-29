@@ -1,9 +1,12 @@
+import fs from "fs";
+import path from "path";
 import { exec } from "child_process";
-export default (tempDir, ops) => new Promise((resolve, reject) => {
-   const ffmpegCmd = `ffmpeg -y -framerate ${ops.fps} -i "${tempDir}/f_%d.png" -vcodec libwebp -lossless 0 -q:v 80 -loop 0 -an -vsync 0 "${ops.output}"`;
+export default (tempDir, dir, fps) => new Promise((resolve, reject) => {
+   const output = path.join(dir, "attp-"+Date.now()+".webp");
+   const ffmpegCmd = `ffmpeg -y -framerate ${fps} -i "${tempDir}/f_%d.png" -vcodec libwebp -lossless 0 -q:v 80 -loop 0 -an -vsync 0 "${output}"`;
    exec(ffmpegCmd, (err) => {
       if (err) reject(err);
       
-      resolve(ops.output);
+      resolve(fs.readFileSync(output));
    });
 });
