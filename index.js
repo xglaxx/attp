@@ -165,24 +165,24 @@ export default class Attp extends ConfigAttp {
       this.fontName = changeFontGeral(diretoryFont, PImage, nameFont);
    }
    
-   async background() {
+   async background(pathImage = this.pathImage) {
       const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-background-"));
       try {
-         if (!fs.existsSync(this.pathImage)) {
+         if (!fs.existsSync(pathImage)) {
             if (this.colorBackground) {
                const img = PImage.make(this.width, this.height);
                const ctx = img.getContext('2d');
                ctx.fillStyle = this.colorBackground;
                ctx.fillRect(0, 0, this.width, this.height);
-               this.pathImage = path.join(pastAttp, "background-"+Date.now()+".png");
-               await PImage.encodePNGToStream(img, fs.createWriteStream(this.pathImage));
+               pathImage = path.join(pastAttp, "background-"+Date.now()+".png");
+               await PImage.encodePNGToStream(img, fs.createWriteStream(pathImage));
             } else {
                throw new Error("Não existe o arquivo imagem para adicionar o Background ou não foi adicionado nenhuma cor específica: "+this.pathImage);
             }
          }
          
          const { images } = await this.start();
-         const back = await cropImage(this.pathImage, pastAttp, this.width, this.height);
+         const back = await cropImage(pathImage, pastAttp, this.width, this.height);
          const tempFrames = fs.mkdtempSync(path.join(pastAttp, "frames-"));
          for (const { buffer: bufferImg, index: i } of images) {
             const imgDir = path.join(tempFrames, (i+1)+".png");
