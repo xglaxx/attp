@@ -1,4 +1,5 @@
 import fs from "fs";
+import { exec } from "child_process";
 export default async function (pathImg, gifFrames, width, height) {
    // Colocar a imagem/foto em baixo em todos os frames extraído.
    return new Promise(async (resolve, reject) => {
