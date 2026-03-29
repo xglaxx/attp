@@ -50,7 +50,6 @@
          dir,
          fontDir: "fonts/",
          emojisDir: "emojis/",
-         output: "attp-"+Date.now(),
          text: "🥀Attp",
       });
       tt.selectEmojis("Google");
@@ -120,8 +119,7 @@
 ## ⚠️ Observações dos Objects
    1. *fontDir*: Não precisa direcionar totalmente a pasta das fontes, pois o *dir* já está fazendo esse trabalho.
    2. *emojisDir*: Não precisa direcionar totalmente a pasta dos emojis, pois o *dir* já está fazendo esse trabalho.
-   3. *output*: Apenas o Nome do arquivo é necessário (Recomendo não ter espaço ou caracteres que atrapalhe o Arquivo).
-   4. *dir*: Ele tem um papel crucial de: Salvar o arquivo, criar pasta temporária, local das fontes e emojis.
+   3. *dir*: Ele tem um papel crucial de: Salvar o arquivo, criar pasta temporária, local das fontes e emojis.
 <div align="center">
    <h2>✨ Demonstração ✨</h2>
       <img src="./tmp/test/attp.webp" width="250" alt="Sticker Animado">
