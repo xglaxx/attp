@@ -7,6 +7,7 @@ export default (tempDir, dir, fps) => new Promise((resolve, reject) => {
    exec(ffmpegCmd, (err) => {
       if (err) reject(err);
       
-      resolve(fs.readFileSync(output));
+      const webp = fs.readFileSync(output);
+      resolve(webp);
    });
 });

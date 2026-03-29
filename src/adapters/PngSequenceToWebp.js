@@ -37,7 +37,10 @@ export default async function (frames, dir) {
       cmd.on("error", (err) => {
          reject(err);
       })
-      .on("end", () => resolve(fs.readFileSync(outputPath)))
+      .on("end", () => {
+         const webp = fs.readFileSync(outputPath); 
+         resolve(webp);
+      })
       .addOutputOptions(options)
       .toFormat("webp")
       .save(outputPath);
