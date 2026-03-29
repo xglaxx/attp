@@ -5,7 +5,7 @@ export default (ctx, words, maxWidth) => {
    for (let i = 0; i < words.length; i++) {
       const word = words[i];
       let width = Math.floor(ctx.measureText(currentLine+word).width);
-      if (width < maxWidth) {
+      if (width <= maxWidth) {
          currentLine += word;
       } else {
          const wordsText = word.split(/ +/);
@@ -22,7 +22,8 @@ export default (ctx, words, maxWidth) => {
       }
    }
    if (currentLine !== "") {
-      lines.push(currentLine);
+      lines.push(currentLine.trim());
    }
+   
    return lines;
 };

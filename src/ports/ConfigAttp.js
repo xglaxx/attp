@@ -9,16 +9,17 @@ function isNumber(val) {
 export default class ConfigAttp {
    constructor(options) {
       this._fps = 10;
-      this._text = "";
-      this._size = 512;
-      this._margin = 5;
-      this._dir = "./";
-      this._padding = 16;
-      this._fontSize = 80;
-      this._edgeColors = [];
-      this._limitText = 150;
-      this._output = "attp-"+Date.now()+".webp";
-      this._colors = ['red', 'lime', 'yellow', 'magenta', 'cyan'];
+      this._delay = 50;
+      this._text = ""; // Texto
+      this._sizeHeight = this._sizeWidth = 512; // Altura / Largura;
+      this._margin = 5; // Marge;
+      this._dir = "./"; // Diretório principal;
+      this._padding = 16; // Acolchoamento;
+      this._fontSize = 80; // Tamanho do texto;
+      this._edgeColors = []; // rgb;
+      this._limitText = 150; // Limite de texto;
+      this._output = "attp-"+Date.now()+".webp"; // Nome do arquivo;
+      this._colors = ['red', 'lime', 'yellow', 'magenta', 'cyan']; // Cor do texto;
       this._sets(options);
    }
    
@@ -39,6 +40,16 @@ export default class ConfigAttp {
       } 
    }
    
+   get delay() {
+      return this._delay;
+   }
+   set delay(number) {
+      this._delay = isNumber(number) || this._delay;
+      if (this._delay <= 9) {
+         console.warn("⚠️ AVISO: Recomendo deixar acima de 10 duração!");
+      } 
+   }
+   
    get limitText() {
       return this._limitText;
    }
@@ -46,11 +57,17 @@ export default class ConfigAttp {
       this._limitText = isNumber(number) || this._limitText;
    }
    
-   get size() {
-      return this._size;
+   get width() {
+      return this._sizeWidth;
    }
-   set size(number) {
-      this._size = isNumber(number) || this._size;
+   set width(number) {
+      this._sizeWidth = isNumber(number) || this._sizeWidth;
+   }
+   get height() {
+      return this._sizeHeight;
+   }
+   set height(number) {
+      this._sizeHeight = isNumber(number) || this._sizeHeight;
    }
    
    get margin() {
@@ -131,7 +148,8 @@ export default class ConfigAttp {
       this.fps = options?.fps;
       this.dir = options?.dir;
       this.text = options.text;
-      this.size = options?.size;
+      this.height = options?.height;
+      this.width = options?.width;
       this.output = options?.output;
       this.margin = options?.margin;
       this.colors = options?.colors;
