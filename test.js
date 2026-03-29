@@ -15,7 +15,7 @@ const text = (pross[2] || "🥀Attp");
    tt.selectEmojis("Google");
    tt.selectFont("CourierPrime-Regular");
    const att = await tt.start(); // => {images, image, webp}
-   const webp = await att.webp;
+   const webp = await att.webp();
    const output = path.join(_dirname, "tmp/attp-"+Date.now()+".webp");
    fs.writeFileSync(output, webp);
    console.log("Attp:", output);

@@ -214,7 +214,7 @@ export default class Attp extends ConfigAttp {
                fs.rmSync(pastAttp, { recursive: true, force: true });
                return buffer;
             },
-            webp: pngSequenceToWebp(frames, pastAttp).finally(() => {
+            webp: () => pngSequenceToWebp(frames, pastAttp).finally(() => {
                fs.rmSync(pastAttp, { recursive: true, force: true });
             })
          };
@@ -330,7 +330,7 @@ export default class Attp extends ConfigAttp {
             fs.rmSync(pastAttp, { recursive: true, force: true });
             return buffer;
          },
-         webp: convertWebp(tempFrames, pastAttp, this.fps).finally(() => {
+         webp: () => convertWebp(tempFrames, pastAttp, this.fps).finally(() => {
             fs.rmSync(pastAttp, { recursive: true, force: true });
          })
       };

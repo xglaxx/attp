@@ -56,7 +56,7 @@
       tt.selectFont("CourierPrime-Regular");
       (async () => {
          const att = await tt.start(); // => Resultado: Object{}
-         const webp = await att.webp;
+         const webp = await att.webp();
          //const images = att.images(); // => Array [{ index, buffer }]
          //const image = att.image(); // => Buffer
          console.log(webp); // => Buffer (webp);
@@ -104,7 +104,7 @@
       tt.colorBackground = "black" // Aceita nomes ('red'), hex ('#FF0000') e RGB ('rgb(255,0,0)').
       try {
          const resBack = await tt.background();
-         const webp = await resBack.webp;
+         const webp = await resBack.webp();
          //const images = resBack.images(); // => Array [{ index, buffer }]
          //const image = resBack.image(); // => Buffer
          console.log(webp) // => Buffer
