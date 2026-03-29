@@ -186,7 +186,7 @@ export default class Attp extends ConfigAttp {
          const back = await cropImage(pathImage, pastAttp, this.width, this.height);
          const tempFrames = fs.mkdtempSync(path.join(pastAttp, "frames-"));
          for (const { buffer: bufferImg, index: i } of images) {
-            const imgDir = path.join(tempFrames, (i+1)+".png");
+            const imgDir = path.join(tempFrames, "f_"+(i+1)+".png");
             fs.writeFileSync(imgDir, bufferImg);
          }
          
