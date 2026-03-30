@@ -166,9 +166,10 @@ export default class Attp extends ConfigAttp {
    }
    
    async background(pathImage = this.pathImage) {
+      const isImage = (f) => /\.(png|jpe?g)$/i.test(f);
       const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-background-"));
       try {
-         if (!fs.existsSync(pathImage)) {
+         if (!(isImage(pathImage) && fs.existsSync(pathImage))) {
             if (this.colorBackground) {
                const img = PImage.make(this.width, this.height);
                const ctx = img.getContext('2d');
