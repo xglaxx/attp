@@ -22,8 +22,11 @@ const pastEmojis = {};
 export default class Attp extends ConfigAttp {
    constructor(options) {
       super(options);
+      this.colorBackground = false;
    }
-   
+   /**
+    * @returns {Object};
+   */
    listEmojis() {
       let diretoryEmojis = path.join(_dirname, "source/emojis/");
       if (this.emojisDir) diretoryEmojis = path.join(this.dir, this.emojisDir);
@@ -44,7 +47,11 @@ export default class Attp extends ConfigAttp {
       });
       return pastEmojis;
    }
-   
+   /**
+    * @param {string} name - Nome do pacote;
+    * @param {boolean} reloadEmoji - Permitir que ler os pacotes de emonis novamente;
+    * @returns {Object};
+   */
    selectEmojis(name, reloadEmoji = false) {
       let select;
       const listPast = (!reloadEmoji && Object.keys(pastEmojis).length) ? pastEmojis : this.listEmojis();
@@ -59,7 +66,9 @@ export default class Attp extends ConfigAttp {
       }
       return select;
    }
-   
+   /**
+    * @param {string} diretory - Diretório dos pacotes de emojis;
+   */
    async changeEmojis(diretory) {
       if (!(fs.existsSync(diretory) && diretory.endsWith("/"))) {
          throw new Error("Não foi encontrado o diretório dessa pasta: "+diretory);
@@ -73,7 +82,10 @@ export default class Attp extends ConfigAttp {
          this.emojisPath = diretory;
       }
    }
-   
+   /**
+    * @param {string} char - Procurar a imagem do emoji;
+    * @returns {Promise<Object|null>};
+   */
    async loadEmoji(char) {
       if (!this.emojisPath) {
          console.error("(🚫ERROR🚫) loadEmoji:", "Não foi aplicado/selecionado o diretório do emojis que será usado.");
@@ -82,7 +94,9 @@ export default class Attp extends ConfigAttp {
       
       return loadEmojiGeral(char, this.emojisPath, PImage);
    }
-   
+   /**
+    * @returns {Object};
+   */
    listFonts() {
       let diretoryFonts = path.join(_dirname, "source/fonts/");
       if (this.fontDir) diretoryFonts = path.join(this.dir, this.fontDir);
@@ -143,7 +157,11 @@ export default class Attp extends ConfigAttp {
       }
       return pastFont;
    }
-   
+   /**
+    * @param {string} name - Declarar o nome da fonte;
+    * @param {boolean} reloadFont - Permitir que ler as fontes novamente;
+    * @returns {Object};
+   */
    selectFont(name, reloadFont = false) {
       let select;
       const listPast = (!reloadFont && pastFont.all.length) ? pastFont : this.listFonts();
@@ -160,11 +178,17 @@ export default class Attp extends ConfigAttp {
       }
       return select;
    }
-   
+   /**
+    * @param {string} diretoryFont - Diretório das fontes;
+    * @param {string} nameFont - Declarar o nome do arquivo, não precisa por no final a extensão (ex.: .ttf & .otf);
+   */
    changeFont(diretoryFont, nameFont) {
       this.fontName = changeFontGeral(diretoryFont, PImage, nameFont);
    }
-   
+   /**
+    * @param {string} pathImage - Arquivo da imagem;
+    * @returns {Promise<Object>};
+   */
    async background(pathImage = this.pathImage) {
       const isImage = (f) => /\.(png|jpe?g)$/i.test(f);
       const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-background-"));
@@ -182,13 +206,13 @@ export default class Attp extends ConfigAttp {
             }
          }
          
-         let { images } = await this.start();
-         images = images();
+         const { images } = await this.start();
+         const framesImgs = images();
          const back = await cropImage(pathImage, pastAttp, this.width, this.height);
          const tempFrames = fs.mkdtempSync(path.join(pastAttp, "frames-"));
-         for (const { buffer: bufferImg, index: i } of images) {
-            const imgDir = path.join(tempFrames, "f_"+(i+1)+".png");
-            fs.writeFileSync(imgDir, bufferImg);
+         for (const v of framesImgs) {
+            const imgDir = path.join(tempFrames, "f_"+(v.index+1)+".png");
+            fs.writeFileSync(imgDir, v.buffer);
          }
          
          await textPutImage(back, tempFrames, this.width, this.height);
@@ -224,7 +248,10 @@ export default class Attp extends ConfigAttp {
          throw new Error(error);
       }
    }
-   
+   /**
+    * @param {string} text - Texto que será adicionado nas imagens;
+    * @returns {Promise<Object>};
+   */
    async start(text = this.text) {
       if (!text) {
          throw new Error("Não foi adicionado nenhum texto. Por favor, adicione algum texto para que eu possa dar continuidade.");
