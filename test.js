@@ -3,8 +3,7 @@ import Attp from "./index.js";
 import { fileURLToPath } from "url";
 const _fileName = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_fileName)+"/";
-const pross = process.argv;
-const text = (pross[2] || "🥀Attp");
+const text = (process.argv[2] || "🥀Attp");
 (async () => {
    const tt = new Attp({
       text: text,

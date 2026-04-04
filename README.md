@@ -9,6 +9,7 @@
    • **📐 Texto Dinâmico**: Quebra de linha inteligente e ajuste automático do tamanho da fonte para caber no 512x512.<br>
    • **⚖️ Altamente Customizável**: Controle de FPS, cores de borda, margens e caminhos de arquivos via Classe de Configuração.<br>
    • **🧹 Auto-Cleanup**: Gerenciamento automático de arquivos temporários.
+   • **📏 Altura/Largura**: Alterando o formato da imagem.
 ## 🛠️ Pré-requisitos
    • Antes de começar, certifique-se de ter o **FFmpeg(^22v)** instalado no seu sistema (No Termux: `pkg install ffmpeg`).<br>
    • Uma pasta com os [emojis do Google](https://github.com/googlefonts/noto-emoji/tree/main/png/) ou pode ser outro Emoji de preferência sua, mas, em formato PNG (72x72 recomendado).<br>
@@ -66,7 +67,6 @@
             fs.writeFileSync(path.join(dir, outputImg), img);
             console.log("Resultado da imagem:", outputImg);
          */
-         // (⚠️) Só pode executar UMA função, pois ao dar o resultado, a pasta será totalmente excluída.
          process.exit();
       })();
    ```
@@ -111,7 +111,6 @@
       } catch (error) {
          console.error(error);
       }
-      // (⚠️) Só pode executar UMA função, pois ao dar o resultado, a pasta será totalmente excluída.
    ```
 ## 📂 Estrutura de Pastas Esperada
    Para o suporte a emojis funcionar, seus arquivos devem seguir o padrão: emoji_u[unicode].png.<br>
@@ -120,6 +119,10 @@
    1. *fontDir*: Não precisa direcionar totalmente a pasta das fontes, pois o *dir* já está fazendo esse trabalho.
    2. *emojisDir*: Não precisa direcionar totalmente a pasta dos emojis, pois o *dir* já está fazendo esse trabalho.
    3. *dir*: Ele tem um papel crucial de: Salvar o arquivo, criar pasta temporária, local das fontes e emojis.
+   4. Só pode executar **UMA** função, pois ao dar o resultado, a pasta será totalmente excluída.
+## 🔥 Créditos dos emojis utilizados!
+   • [Google Fonts](https://github.com/googlefonts)<br>
+   • [Mr. Pennyworth](https://github.com/mr-pennyworth)<br>
 <div align="center">
    <h2>✨ Demonstração ✨</h2>
       <img src="./tmp/test/attp.webp" width="250" alt="Sticker Animado">

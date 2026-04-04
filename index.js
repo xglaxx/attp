@@ -282,7 +282,7 @@ export default class Attp extends ConfigAttp {
          tempCtx.font = `${sizeText - 1.0}pt '${this.fontName}'`;
          lines = wrapText(tempCtx, textLines, maxWidth);
          const totalHeight = lines.length * (sizeText * 1.2);
-         if (totalHeight < maxHeight || sizeText <= 19) break;
+         if (totalHeight <= maxHeight || sizeText <= 19) break;
          sizeText -= 5;
       }
       
