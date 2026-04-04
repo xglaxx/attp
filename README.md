@@ -11,8 +11,8 @@
    • **🧹 Auto-Cleanup**: Gerenciamento automático de arquivos temporários.
    • **📏 Altura/Largura**: Alterando o formato da imagem.
 ## 🛠️ Pré-requisitos
-   • Antes de começar, certifique-se de ter o **FFmpeg(^22v)** instalado no seu sistema (No Termux: `pkg install ffmpeg`).<br>
-   • Uma pasta com os [emojis do Google](https://github.com/googlefonts/noto-emoji/tree/main/png/) ou pode ser outro Emoji de preferência sua, mas, em formato PNG (72x72 recomendado).<br>
+   • Antes de começar, certifique-se de ter o **FFmpeg(^22v)** e o **Imagemagick** instalado no seu sistema.<br>
+   • Uma pasta com os [Emojis do Google](https://github.com/googlefonts/noto-emoji/tree/main/png/) ou pode ser outro Emoji de preferência sua, mas, em formato PNG (72x72 recomendado).<br>
    • Necessário ter um arquivo [TTF/OTF](https://www.nerdfonts.com/font-downloads) para que seja aplicado no texto da imagem.
 ## ⚙️ Opções de Configuração (API)
 | Propriedade | Tipo | Padrão | Descrição |
@@ -28,15 +28,20 @@
 | `limitText` | `Number` | `150` | Limite máximo de caracteres. |
 | `margin` | `Number` | `5` | Recuo lateral para evitar que o texto encoste na borda. |
 # 🚀 Como usar
-   1. Instalação
+   1. Pacotes importantes (termux/linux)
+   ```bash
+      pkg install ffmpeg && pkg install imagemagick
+   ```
+   2. Instalação
    ```bash
       npm install xglaxx/attp
+      ## yarn add xglaxx/attp
    ```
-   2. Instalar na biblioteca/package
+   3. Instalar na biblioteca/package
    ```bash
       npm install pureimage grapheme-splitter
    ```
-   3. Implementação
+   4. Implementação
    ```javascript
       /*
       import Attp from "attp";
@@ -70,7 +75,7 @@
          process.exit();
       })();
    ```
-   4. Mudar/Selecionar a **fonte**
+   5. Mudar/Selecionar a **fonte**
    ```javascript
       // Diretório
       tt.changeFont("./fonts/minha-fonte.ttf");
@@ -84,7 +89,7 @@
       const fonts = tt.listFonts(); // Só funciona se tiver fontes dentro da pasta.
       console.log(fonts) // => {}
    ```
-   5. Ver lista / selecionar emoji
+   6. Ver lista / selecionar emoji
    ```javascript
       // Ver a lista de emojis de cada pacote.
       const emojisList = tt.listEmojis();
@@ -98,7 +103,7 @@
       // Carregar o pacote de emojis diretamente
       tt.changeEmojis("./Google/"); // Esteja ciente que as imagens(emojis) estejam dentro da pasta.
    ```
-   6. Adicionar uma imagem/foto/cor de fundo
+   7. Adicionar uma imagem/foto/cor de fundo
    ```javascript
       tt.pathImage = "./attp.png";
       tt.colorBackground = "black" // Aceita nomes ('red'), hex ('#FF0000') e RGB ('rgb(255,0,0)').
