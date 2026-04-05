@@ -22,7 +22,7 @@ const pastEmojis = {};
 export default class Attp extends ConfigAttp {
    constructor(options) {
       super(options);
-      this.colorBackground = false;
+      this.colorBackground = this.emojisPackName = false;
    }
    /**
     * @returns {Object};
@@ -34,11 +34,18 @@ export default class Attp extends ConfigAttp {
          delete pastEmojis[o];
       }
       
-      const ListEmojis = fs.readdirSync(diretoryEmojis);
+      const readPast = (dir) => {
+         try {
+            return fs.readdirSync(dir);
+         } catch (err) {
+            return [];
+         }
+      };
+      const ListEmojis = readPast(diretoryEmojis);
       ListEmojis.forEach((pasta, index) => {
          const local = path.join(diretoryEmojis, pasta+"/");
-         const countEmojis = fs.readdirSync(local);
-         pastEmojis[pasta] = {
+         const countEmojis = readPast(local);
+         if (countEmojis.length) pastEmojis[pasta] = {
             index,
             name: pasta,
             countEmojis: countEmojis.length,
@@ -63,6 +70,7 @@ export default class Attp extends ConfigAttp {
       }
       if (select) {
          this.emojisPath = select.local;
+         this.emojisPackName select.name;
       }
       return select;
    }
@@ -80,6 +88,7 @@ export default class Attp extends ConfigAttp {
          throw new Error("Não foi encontrado nenhum emojis com a imagem PNG!");
       } else {
          this.emojisPath = diretory;
+         this.emojisPackName = path.dirname(diretory).split('/').pop().trim();;
       }
    }
    /**
@@ -92,7 +101,7 @@ export default class Attp extends ConfigAttp {
          return null;
       }
       
-      return loadEmojiGeral(char, this.emojisPath, PImage);
+      return loadEmojiGeral(char, this.emojisPath, PImage, this.emojisPackName);
    }
    /**
     * @returns {Object};

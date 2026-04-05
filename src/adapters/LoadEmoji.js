@@ -5,7 +5,7 @@ import { exec } from "child_process";
 import emojiToCodePoint from "./EmojiToCodePoint.js";
 const emojiCache = new Map();
 const execSync = util.promisify(exec);
-const findNameFile = (f, arrayCode) => {
+const findNameFile = (f, arrayCode, packName) => {
    if (!f.endsWith(".png")) return false;
    
    const joinCode = arrayCode.join('—').toLocaleLowerCase();
@@ -16,7 +16,7 @@ const findNameFile = (f, arrayCode) => {
 export default async (emoji, dir, PImage) => {
    const arrayCode = emojiToCodePoint(emoji);
    if (!Array.isArray(arrayCode)) return null;
-   if (emojiCache.has(arrayCode.join('.'))) return emojiCache.get(arrayCode.join('.'));
+   if (emojiCache.has(arrayCode.join('.'))) return emojiCache.get(packName+"_"+arrayCode.join('-'));
    
    return new Promise(async (resolve, reject) => {
       if (!fs.existsSync(dir)) reject({ message: "Não foi encontrado a pasta para renderizar os emojis images.", error: dir });
@@ -39,7 +39,7 @@ export default async (emoji, dir, PImage) => {
          }
          
          image.path = file;
-         emojiCache.set(arrayCode.join('.'), image); 
+         emojiCache.set(packName+"_"+arrayCode.join('-'), image); 
          resolve(image);
       } catch (err) {
          reject(err);
