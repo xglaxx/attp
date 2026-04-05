@@ -88,7 +88,7 @@ export default class Attp extends ConfigAttp {
          throw new Error("Não foi encontrado nenhum emojis com a imagem PNG!");
       } else {
          this.emojisPath = diretory;
-         this.emojisPackName = path.dirname(diretory).split('/').pop().trim();;
+         this.emojisPackName = path.dirname(diretory).split('/').pop().trim();
       }
    }
    /**
