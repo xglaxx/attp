@@ -70,7 +70,7 @@ export default class Attp extends ConfigAttp {
       }
       if (select) {
          this.emojisPath = select.local;
-         this.emojisPackName select.name;
+         this.emojisPackName = select.name;
       }
       return select;
    }
