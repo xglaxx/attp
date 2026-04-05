@@ -5,7 +5,7 @@ import { exec } from "child_process";
 import emojiToCodePoint from "./EmojiToCodePoint.js";
 const emojiCache = new Map();
 const execSync = util.promisify(exec);
-const findNameFile = (f, arrayCode, packName) => {
+const findNameFile = (f, arrayCode) => {
    if (!f.endsWith(".png")) return false;
    
    const joinCode = arrayCode.join('—').toLocaleLowerCase();
@@ -13,7 +13,7 @@ const findNameFile = (f, arrayCode, packName) => {
    const isFile = Boolean(splitEmoji.indexOf(joinCode+".png") !== -1 || joinCode.split('—').find((v) => v+".png" === splitEmoji));
    return isFile
 }
-export default async (emoji, dir, PImage) => {
+export default async (emoji, dir, PImage, packName) => {
    const arrayCode = emojiToCodePoint(emoji);
    if (!Array.isArray(arrayCode)) return null;
    if (emojiCache.has(arrayCode.join('.'))) return emojiCache.get(packName+"_"+arrayCode.join('-'));
