@@ -107,19 +107,10 @@
    ```javascript
       tt.pathImage = "./attp.png";
       tt.colorBackground = "black" // Aceita nomes ('red'), hex ('#FF0000') e RGB ('rgb(255,0,0)').
-      try {
-         const resBack = await tt.background();
-         const webp = await resBack.webp();
-         //const images = resBack.images(); // => Array [{ index, buffer }]
-         //const image = resBack.image(); // => Buffer
-         console.log(webp) // => Buffer
-      } catch (error) {
-         console.error(error);
-      }
    ```
 ## 📂 Estrutura de Pastas Esperada
-   Para o suporte a emojis funcionar, seus arquivos devem seguir o padrão: emoji_u[unicode].png.<br>
-   Exemplo: emoji_u1f337.png (Tulipa).
+   Para o suporte a emojis funcionar, seus arquivos devem seguir o padrão: [unicode].png<br>
+   Exemplo: 1f337.png (Tulipa).
 ## ⚠️ Observações dos Objects
    1. *fontDir*: Não precisa direcionar totalmente a pasta das fontes, pois o *dir* já está fazendo esse trabalho.
    2. *emojisDir*: Não precisa direcionar totalmente a pasta dos emojis, pois o *dir* já está fazendo esse trabalho.

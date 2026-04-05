@@ -8,9 +8,10 @@ const execSync = util.promisify(exec);
 const findNameFile = (f, arrayCode) => {
    if (!f.endsWith(".png")) return false;
    
-   const regexEmoji = new RegExp(arrayCode.join("|"), "g");
-   const isFile = regexEmoji.test(f.toLocaleLowerCase());
-   return isFile;
+   const joinCode = arrayCode.join('—').toLocaleLowerCase();
+   const splitEmoji = f.split(/[-_]/g).join('—').toLocaleLowerCase();
+   const isFile = Boolean(splitEmoji.indexOf(joinCode+".png") !== -1 || joinCode.split('—').find((v) => v+".png" === splitEmoji));
+   return isFile
 }
 export default async (emoji, dir, PImage) => {
    const arrayCode = emojiToCodePoint(emoji);
@@ -21,7 +22,7 @@ export default async (emoji, dir, PImage) => {
       if (!fs.existsSync(dir)) reject({ message: "Não foi encontrado a pasta para renderizar os emojis images.", error: dir });
       
       try {
-         let file = false;
+         var file;
          const emojis = fs.readdirSync(dir);
          for (let e of emojis) {
             if (findNameFile(e, arrayCode)) {
@@ -29,17 +30,18 @@ export default async (emoji, dir, PImage) => {
                break;
             }
          }
-         if (!(file && fs.existsSync(file))) reject({ message: "Não foi encontrado o emoji (PNG).", error: arrayCode });
+         if (!file) reject({ message: "Não foi encontrado o emoji (PNG).", error: arrayCode });
          
-         const streamImg = fs.createReadStream(file);
-         const image = await PImage.decodePNGFromStream(streamImg);
-         await execSync(`magick ${file} -resize 72x72 ${file}`);
-         image.width = image.height = 72;
+         let image = await PImage.decodePNGFromStream(fs.createReadStream(file));
+         if (image.width !== 72 || image.height !== 72) {
+            await execSync(`magick ${file} -resize 72x72 ${file}`);
+            image = await PImage.decodePNGFromStream(fs.createReadStream(file));
+         }
+         
          image.path = file;
          emojiCache.set(arrayCode.join('.'), image); 
          resolve(image);
       } catch (err) {
-         console.error(err)
          reject(err);
       }
    });

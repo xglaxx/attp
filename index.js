@@ -186,73 +186,10 @@ export default class Attp extends ConfigAttp {
       this.fontName = changeFontGeral(diretoryFont, PImage, nameFont);
    }
    /**
-    * @param {string} pathImage - Arquivo da imagem;
-    * @returns {Promise<Object>};
-   */
-   async background(pathImage = this.pathImage) {
-      const isImage = (f) => /\.(png|jpe?g)$/i.test(f);
-      const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-background-"));
-      try {
-         if (!(isImage(pathImage) && fs.existsSync(pathImage))) {
-            if (this.colorBackground) {
-               const img = PImage.make(this.width, this.height);
-               const ctx = img.getContext('2d');
-               ctx.fillStyle = this.colorBackground;
-               ctx.fillRect(0, 0, this.width, this.height);
-               pathImage = path.join(pastAttp, "background-"+Date.now()+".png");
-               await PImage.encodePNGToStream(img, fs.createWriteStream(pathImage));
-            } else {
-               throw new Error("Não existe o arquivo imagem para adicionar o Background ou não foi adicionado nenhuma cor específica: "+this.pathImage);
-            }
-         }
-         
-         const { images } = await this.start();
-         const framesImgs = images();
-         const back = await cropImage(pathImage, pastAttp, this.width, this.height);
-         const tempFrames = fs.mkdtempSync(path.join(pastAttp, "frames-"));
-         for (const v of framesImgs) {
-            const imgDir = path.join(tempFrames, "f_"+(v.index+1)+".png");
-            fs.writeFileSync(imgDir, v.buffer);
-         }
-         
-         await textPutImage(back, tempFrames, this.width, this.height);
-         const framesEdit = fs.readdirSync(tempFrames).sort((a, b) => {
-            return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
-         });
-         const duration = Math.max(0.01, this.delay / 1000); // segundos, mínimo 10ms
-         const frames = framesEdit.map((frame, index) => ({
-            index,
-            path: path.join(tempFrames, frame),
-            duration
-         }));
-         return {
-            images: () => {
-               const bufferFrames = frames.map((f, i) => ({
-                  index: i,
-                  buffer: fs.readFileSync(f.path)
-               }));
-               fs.rmSync(pastAttp, { recursive: true, force: true });
-               return bufferFrames;
-            },
-            image: () => {
-               const buffer = fs.readFileSync(frames[0].path);
-               fs.rmSync(pastAttp, { recursive: true, force: true });
-               return buffer;
-            },
-            webp: () => pngSequenceToWebp(frames, pastAttp).finally(() => {
-               fs.rmSync(pastAttp, { recursive: true, force: true });
-            })
-         };
-      } catch (error) {
-         fs.rmSync(pastAttp, { recursive: true, force: true });
-         throw new Error(error);
-      }
-   }
-   /**
     * @param {string} text - Texto que será adicionado nas imagens;
     * @returns {Promise<Object>};
    */
-   async start(text = this.text) {
+   async start(text = this.text, pathImage = this.pathImage) {
       if (!text) {
          throw new Error("Não foi adicionado nenhum texto. Por favor, adicione algum texto para que eu possa dar continuidade.");
       }
@@ -273,6 +210,7 @@ export default class Attp extends ConfigAttp {
       let lines = [];
       const maxWidth = this.width - (this.margin * 2);
       const maxHeight = this.height - (this.margin * 2);
+      const isImage = (f) => /\.(png|jpe?g)$/i.test(f);
       const pastAttp = fs.mkdtempSync(path.join(this.dir, "attp-"));
       const tempFrames = fs.mkdtempSync(path.join(pastAttp, "frames-"));
       const tempImg = PImage.make(this.width, this.height);
@@ -341,24 +279,47 @@ export default class Attp extends ConfigAttp {
          const p = path.join(tempFrames, `f_${i}.png`);
          await PImage.encodePNGToStream(img, fs.createWriteStream(p));
       }
-      const frames = fs.readdirSync(tempFrames).sort((a, b) => {
+      if (!(isImage(pathImage) && fs.existsSync(pathImage))) {
+         if (this.colorBackground) {
+            const img = PImage.make(this.width, this.height);
+            const ctx = img.getContext('2d');
+            ctx.fillStyle = this.colorBackground;
+            ctx.fillRect(0, 0, this.width, this.height);
+            pathImage = path.join(pastAttp, "background-"+Date.now()+".png");
+            await PImage.encodePNGToStream(img, fs.createWriteStream(pathImage));
+         } else {
+            pathImage = false;
+         }
+      }
+      if (pathImage) {
+         const back = await cropImage(pathImage, pastAttp, this.width, this.height);
+         await textPutImage(back, tempFrames, this.width, this.height);
+      }
+      
+      const framesEdit = fs.readdirSync(tempFrames).sort((a, b) => {
          return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
       });
+      const duration = Math.max(0.01, this.delay / 1000); // segundos, mínimo 10ms
+      const frames = framesEdit.map((frame, index) => ({
+         index,
+         path: path.join(tempFrames, frame),
+         duration
+      }));
       return {
          images: () => {
             const bufferFrames = frames.map((f, i) => ({
                index: i,
-               buffer: fs.readFileSync(path.join(tempFrames, f))
+               buffer: fs.readFileSync(f.path)
             }));
             fs.rmSync(pastAttp, { recursive: true, force: true });
             return bufferFrames;
          },
          image: () => {
-            const buffer = fs.readFileSync(path.join(tempFrames, frames[0]));
+            const buffer = fs.readFileSync(frames[0].path);
             fs.rmSync(pastAttp, { recursive: true, force: true });
             return buffer;
          },
-         webp: () => convertWebp(tempFrames, pastAttp, this.fps).finally(() => {
+         webp: () => pngSequenceToWebp(frames, pastAttp).finally(() => {
             fs.rmSync(pastAttp, { recursive: true, force: true });
          })
       };
