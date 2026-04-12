@@ -18,7 +18,7 @@ const text = (process.argv[2] || "🥀Attp");
       const webp = await att.webp();
       const output = path.join(_dirname, "tmp/attp-"+Date.now()+".webp");
       fs.writeFileSync(output, webp);
-      console.log("Attp:", output); // Buffer;
+      console.log("Attp:", output);
    } catch (error) {
       console.error(error);
    }
